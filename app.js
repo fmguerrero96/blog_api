@@ -1,4 +1,5 @@
 const express = require('express')
+const createError = require('http-errors');
 require('dotenv').config()
 const app = express()
 
@@ -20,6 +21,11 @@ async function main() {
 
 //blog routes
 app.use('/blog', postRoutes);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    next(createError(404));
+});
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
