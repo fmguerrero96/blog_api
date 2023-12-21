@@ -4,6 +4,8 @@ const app = express()
 
 const PORT = (process.env.PORT || 2000);
 
+app.use(express.json());
+
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
