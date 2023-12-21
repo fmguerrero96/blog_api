@@ -1,5 +1,6 @@
 const express = require('express')
 const createError = require('http-errors');
+const cors = require('cors');
 require('dotenv').config()
 const app = express()
 
@@ -8,6 +9,7 @@ const postRoutes = require("./routes/postRoutes")
 const PORT = (process.env.PORT || 2000);
 
 app.use(express.json());
+app.use(cors());
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
