@@ -11,4 +11,7 @@ router.get('/posts', posts_controller.getAllPosts);
 //Get a specific blog post
 router.get("/posts/:postid", posts_controller.getSinglePost);
 
+//Create one blog post
+router.post("/posts", posts_controller.createBlogPost)
+
 module.exports = router;
