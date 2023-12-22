@@ -14,4 +14,7 @@ router.get("/posts/:postid", posts_controller.getSinglePost);
 //Create one blog post
 router.post("/posts", posts_controller.createBlogPost)
 
+//Delete a blog post
+router.delete("/posts/:postid", posts_controller.deleteBlogPost)
+
 module.exports = router;
