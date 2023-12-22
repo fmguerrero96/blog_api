@@ -12,9 +12,12 @@ router.get('/posts', posts_controller.getAllPosts);
 router.get("/posts/:postid", posts_controller.getSinglePost);
 
 //Create one blog post
-router.post("/posts", posts_controller.createBlogPost)
+router.post("/posts", posts_controller.createBlogPost);
 
 //Delete a blog post
-router.delete("/posts/:postid", posts_controller.deleteBlogPost)
+router.delete("/posts/:postid", posts_controller.deleteBlogPost);
+
+//Update a blog post
+router.put("/posts/:postid", posts_controller.updateBlogPost);
 
 module.exports = router;
