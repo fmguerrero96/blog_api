@@ -66,3 +66,18 @@ exports.createBlogPost = asyncHandler(async (req, res, next) => {
         res.status(500).json({ error: 'Internal Server Error. Could not create blog post' });
       }
 });
+
+//Delete a blog post
+exports.deleteBlogPost = asyncHandler(async (req, res, next) => {
+    //check if post exists
+    const post = await Post.findById(req.params.postid)
+
+    if(!post){
+        //if post does not exist...
+        res.json('The blog post you are trying to delete does not exist')
+    } else {
+        //delete post if it exists
+        await Post.findByIdAndDelete(req.params.postid)
+        res.json(`Post with id ${req.params.postid} has been deleted.`)
+    }
+});
