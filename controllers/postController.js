@@ -5,8 +5,13 @@ const { body, validationResult } = require("express-validator");
 
 //GET list of all posts
 exports.getAllPosts = asyncHandler(async (req, res, next) => {
-    const allPosts = await Post.find({}).populate('comments').sort({ title: 1 }).exec();
-    res.json(allPosts)
+    try {
+        const allPosts = await Post.find({}).populate('comments').sort({ title: 1 }).exec();
+        res.json(allPosts);
+    } catch (error) {
+        // Handle database query error
+        res.status(500).json({ error: 'Internal Server Error. Could not fetch posts.' });
+    }
 });
 
 //Get a specific blog post
