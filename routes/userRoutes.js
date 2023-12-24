@@ -8,4 +8,7 @@ const user_controller = require('../controllers/userController');
 //Get all users
 router.get('/users', user_controller.getAllUsers);
 
+//Get a specific user by id
+router.get('/users/:userid', user_controller.getSingleUser);
+
 module.exports = router;
