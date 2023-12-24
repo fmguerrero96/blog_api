@@ -5,6 +5,7 @@ require('dotenv').config()
 const app = express()
 
 const postRoutes = require("./routes/postRoutes")
+const userRoutes = require("./routes/userRoutes")
 
 const PORT = (process.env.PORT || 2000);
 
@@ -23,6 +24,7 @@ async function main() {
 
 //blog routes
 app.use('/blog', postRoutes);
+app.use('/blog', userRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
