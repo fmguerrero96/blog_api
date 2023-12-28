@@ -83,4 +83,22 @@ exports.createUser = [
           };
         }
       ),
-    ]
+]
+
+//Delete User
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+    //check if user exists
+    const user = await User.findById(req.params.userid)
+    console.log(user)
+
+    try {
+        if (!user) {
+            res.status(404).json({ error: 'The user you are trying to delete does not exist.' });
+        } else {
+            await User.findByIdAndDelete(req.params.userid);
+            res.status(204).end();  // 204 No Content for successful deletion
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error. Could not delete user.' });
+    }
+});
