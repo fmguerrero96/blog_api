@@ -77,13 +77,17 @@ exports.deleteBlogPost = asyncHandler(async (req, res, next) => {
     //check if post exists
     const post = await Post.findById(req.params.postid)
 
-    if(!post){
-        //if post does not exist...
-        res.json('The blog post you are trying to delete does not exist.')
-    } else {
-        //delete post if it exists
-        await Post.findByIdAndDelete(req.params.postid)
-        res.json(`Post with id ${req.params.postid} has been deleted.`)
+    try{
+        if(!post){
+            //if post does not exist...
+            res.status(404).json({ error: 'The blog post you are trying to delete does not exist.' });
+        } else {
+            //delete post if it exists
+            await Post.findByIdAndDelete(req.params.postid)
+            res.status(204).end();  // 204 No Content for successful deletion
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error. Could not delete post.'})
     }
 });
 
