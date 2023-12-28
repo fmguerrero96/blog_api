@@ -83,7 +83,7 @@ exports.createUser = [
           };
         }
       ),
-]
+];
 
 //Delete User
 exports.deleteUser = asyncHandler(async (req, res, next) => {
@@ -100,5 +100,74 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
         }
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error. Could not delete user.' });
+    }
+});
+
+//Update user 
+exports.updateUser = asyncHandler(async (req, res, next) => {
+    // Validate and sanitize input fields.
+    body("new_first_name")
+        .trim()
+        .isLength({ min: 1 })
+        .escape()
+        .withMessage("Please provide your first name.")
+    body("new_username")
+        .trim()
+        .isLength({ min: 3})
+        .escape()
+        .withMessage('Username must be at least 3 characters long')
+    body("old_password")
+        .trim()
+        .escape()
+    body("new_password")
+        .trim()
+        .isLength({ min: 3})
+        .escape()
+        .withMessage('New Password must be at least 3 charcaters long')
+    body('confirm_new_password')
+        .trim()
+        .escape()
+    
+    if(req.body.new_password !== req.body.confirm_new_password){
+        return res.status(400).json({ error: 'New password does not match confirmation' });
+    }
+
+
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()) {
+        //if there are erros, then...
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+
+    try {
+        // find the existing user
+        const existingUser = await User.findById(req.params.userid);
+
+        if (!existingUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        // Compare the old password using bcrypt
+        const isPasswordMatch = await bcrypt.compare(req.body.old_password, existingUser.password);
+
+        if (!isPasswordMatch) {
+            return res.status(400).json({ error: 'Old password is incorrect' });
+        }
+
+        const hashedPassword = await bcrypt.hash(req.body.new_password, 10);
+
+        // Update the post fields
+        existingUser.first_name = req.body.new_first_name;
+        existingUser.username = req.body.new_username;
+        existingUser.password = hashedPassword;
+
+        // Save the updated user to the database
+        const updatedUser = await existingUser.save();
+
+        res.status(200).json(updatedUser); // Respond with the updated post
+    } catch (error) {
+        // Handle any errors that occur during the update operation
+        res.status(500).json({ error: 'Internal Server Error. Could not update the user' });
     }
 });
