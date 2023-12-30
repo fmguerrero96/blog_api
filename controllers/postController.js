@@ -83,7 +83,10 @@ exports.deleteBlogPost = asyncHandler(async (req, res, next) => {
             //if post does not exist...
             res.status(404).json({ error: 'The blog post you are trying to delete does not exist.' });
         } else {
-            //delete post if it exists
+            // Delete all comments associated with the post
+            await Comment.deleteMany({ post: req.params.postid });
+
+            //Delete the blog post
             await Post.findByIdAndDelete(req.params.postid)
             res.status(204).end();  // 204 No Content for successful deletion
         }
