@@ -6,7 +6,7 @@ const { body, validationResult } = require("express-validator");
 //GET list of all posts
 exports.getAllPosts = asyncHandler(async (req, res, next) => {
     try {
-        const allPosts = await Post.find({}).populate('comments').sort({ title: 1 }).exec();
+        const allPosts = await Post.find({}).populate('comments author').sort({ title: 1 }).exec();
         res.json(allPosts);
     } catch (error) {
         // Handle database query error
