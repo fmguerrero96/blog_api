@@ -8,4 +8,7 @@ const comments_controller = require('../controllers/commentController');
 //get all comments
 router.get('/comments', comments_controller.getAllComments);
 
+//get a specific comment by id
+router.get('/comments/:commentid', comments_controller.getSingleComment);
+
 module.exports = router;
