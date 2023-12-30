@@ -131,6 +131,7 @@ exports.updateBlogPost = asyncHandler(async (req, res, next) => {
         existingPost.title = req.body.title;
         existingPost.text = req.body.text;
         existingPost.public = req.body.public;
+        existingPost.author = req.user._id;
 
         // Save the updated post to the database
         const updatedPost = await existingPost.save();
