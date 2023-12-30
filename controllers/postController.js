@@ -58,7 +58,8 @@ exports.createBlogPost = asyncHandler(async (req, res, next) => {
         title: req.body.title,
         text: req.body.text,
         public: req.body.public,
-        comments: []
+        comments: [],
+        author: req.user._id,
     })
 
     try {
