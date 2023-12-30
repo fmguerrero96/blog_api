@@ -7,6 +7,7 @@ const PostSchema = new Schema({
     time_stamp: { type: Date, default: Date.now },
     public: {type: Boolean, required: true, default: true},
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    author: { type: Schema.Types.ObjectId, ref: "User"}
 })
 
 module.exports = mongoose.model("Post", PostSchema);
