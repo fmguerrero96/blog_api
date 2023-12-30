@@ -17,7 +17,7 @@ exports.getAllPosts = asyncHandler(async (req, res, next) => {
 //Get a specific blog post
 exports.getSinglePost = asyncHandler(async (req, res, next) => {
     const singlePost = await Post.findById(req.params.postid)
-    .populate('comments').exec()
+    .populate('comments author').exec()
 
     if (singlePost === null) {
         // No results.
