@@ -87,3 +87,22 @@ exports.createComment = asyncHandler(async (req, res, next) => {
         res.status(500).json({ error: 'Internal Server Error. Could not create a new comment' });
     }
 });
+
+exports.deleteComment = asyncHandler(async (req, res, next) => {
+    //chech that comment exists
+    const comment = await Comment.findById(req.params.commentid);
+
+    try {
+        if(!comment){
+            //if comment does not exist...
+            return res.status(404).json({ error: 'The comment you are trying to delete does not exist.' });
+        } else {
+            //Delete the comment
+            await Comment.findByIdAndDelete(req.params.commentid)
+            return res.status(204).end();  // 204 No Content for successful deletion
+        }
+
+    } catch(error) {
+        res.status(500).json({ error: 'Internal Server Error. Could not delete comment.'})
+    }
+});
