@@ -14,4 +14,7 @@ router.get('/comments/:commentid', comments_controller.getSingleComment);
 //create a new comment
 router.post('/comments/:postid', comments_controller.createComment);
 
+//Delete a comment
+router.delete('/comments/:commentid', comments_controller.deleteComment);
+
 module.exports = router;
