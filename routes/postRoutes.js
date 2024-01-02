@@ -20,4 +20,7 @@ router.delete("/posts/:postid", posts_controller.deleteBlogPost);
 //Update a blog post
 router.put("/posts/:postid", posts_controller.updateBlogPost);
 
+//get all comments from a blog post
+router.get("/posts/:postid/comments", posts_controller.getCommentsFromPost);
+
 module.exports = router;
