@@ -142,3 +142,26 @@ exports.updateBlogPost = asyncHandler(async (req, res, next) => {
         res.status(500).json({ error: 'Internal Server Error. Could not update the blog post' });
     }
 });
+
+//get all comments from a blog post
+exports.getCommentsFromPost = asyncHandler(async (req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.postid)
+            .populate({
+                path: 'comments',
+                populate: { path: 'message' }
+            });
+        
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        const comments = post.comments;
+        
+        return res.status(200).json(comments);
+
+    } catch(error) {
+         // Handle any errors that occur during the fetch operation
+         res.status(500).json({ error: 'Internal Server Error. Could not fetch the comments.' });
+    }
+});
