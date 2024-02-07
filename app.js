@@ -6,6 +6,7 @@ const app = express()
 
 const postRoutes = require("./routes/postRoutes")
 const userRoutes = require("./routes/userRoutes")
+const commentRoutes = require("./routes/commentRoutes")
 
 const PORT = (process.env.PORT || 2000);
 
@@ -25,6 +26,7 @@ async function main() {
 //blog routes
 app.use('/blog', postRoutes);
 app.use('/blog', userRoutes);
+app.use('/blog', commentRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
