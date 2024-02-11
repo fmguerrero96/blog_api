@@ -89,7 +89,7 @@ exports.createComment = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteComment = asyncHandler(async (req, res, next) => {
-    //chech that comment exists
+    //check that comment exists
     const comment = await Comment.findById(req.params.commentid);
 
     try {
