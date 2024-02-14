@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
