@@ -22,3 +22,4 @@ passport.use(new JwtStrategy(options, async (jwtPayload, done) => {
     }
 }));
 
+module.exports = passport;
