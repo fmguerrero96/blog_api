@@ -1,6 +1,7 @@
 const express = require('express')
 const createError = require('http-errors');
 const cors = require('cors');
+const passportConfig = require('./passport-config')
 require('dotenv').config()
 const app = express()
 
@@ -12,6 +13,7 @@ const PORT = (process.env.PORT || 2000);
 
 app.use(express.json());
 app.use(cors());
+app.use(passport.initialize());
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
