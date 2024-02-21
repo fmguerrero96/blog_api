@@ -2,6 +2,8 @@ const User = require('../models/user');
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken");
+const user = require('../models/user');
 
 //Get all users
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
@@ -169,5 +171,28 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     } catch (error) {
         // Handle any errors that occur during the update operation
         res.status(500).json({ error: 'Internal Server Error. Could not update the user' });
+    }
+});
+
+//Handle user login on POST
+exports.login_post = asyncHandler(async (req, res, next) => {
+    const {username, password} = req.body;
+
+    try {
+        const user = await User.findOne({username})
+
+        // If user does not exist or password is incorrect, return error
+        if (!user || !(await bcrypt.compare(password, user.password)) ) {
+            return res.status(401).json({error: 'Invalid cretentials'})
+        }
+
+        // If authentication successful, generate JWT token
+        const token = jwt.sign({ id: user._id }, 'this_is_the_secret_key', { expiresIn: '1d' });
+
+        //Send the token
+        res.status(200).json({token});  
+    } catch(error) {
+        console.error('Login error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
