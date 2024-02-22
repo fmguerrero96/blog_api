@@ -1,3 +1,4 @@
+require('dotenv').config()
 const User = require('../models/user');
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
@@ -186,7 +187,7 @@ exports.login_post = asyncHandler(async (req, res, next) => {
         }
 
         // If authentication successful, generate JWT token
-        const token = jwt.sign({ id: user._id }, 'this_is_the_secret_key', { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_ACCESS_TOKEN, { expiresIn: '1d' });
 
         //Send the token
         res.status(200).json({token});  
