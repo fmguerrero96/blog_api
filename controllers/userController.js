@@ -71,7 +71,7 @@ exports.createUser = [
     
         if(!errors.isEmpty()) {
             //if there are erros, then...
-            return res.status(400).json({ errors: errors.array() })
+            return res.status(400).json({ errors: errors.array(), error: 'Something went wrong. Try again.' })
         } else {
           // Data from form is valid.
           // Hash the password using bcrypt before saving it to the database.
