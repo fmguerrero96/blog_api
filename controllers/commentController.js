@@ -58,10 +58,10 @@ exports.createComment = asyncHandler(async (req, res, next) => {
 
     try {
         // extract the user's id
-        const authorId = req.user._id;
+        const authorId = req.body._id;
 
         // extract the postid
-        const postId = req.params.postid;
+        const postId = req.body.postid;
 
         // Check if the post exists
         const post = await Post.findById(postId);
@@ -85,6 +85,7 @@ exports.createComment = asyncHandler(async (req, res, next) => {
     } catch(error) {
         // Handle any errors that occur during the save operation
         res.status(500).json({ error: 'Internal Server Error. Could not create a new comment' });
+        console.log(error)
     }
 });
 
