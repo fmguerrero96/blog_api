@@ -80,6 +80,10 @@ exports.createComment = asyncHandler(async (req, res, next) => {
 
         const savedComment = await newComment.save();
 
+        // Update the corresponding post document
+        post.comments.push(savedComment._id);
+        await post.save();
+
         return res.status(201).json(savedComment);
 
     } catch(error) {
